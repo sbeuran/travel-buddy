@@ -91,7 +91,7 @@ function SearchResultsPage() {
         setLoading(false);
         setError(true);
       }
-    }, 5000);
+    }, 500);
   };
 
   const calculateHaversineDistance = (startCoord: { lat: number; lon: number }, endCoord: { lat: number; lon: number }) => {
