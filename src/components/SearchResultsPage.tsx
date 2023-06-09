@@ -40,14 +40,18 @@ function SearchResultsPage() {
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
     setOrigin(searchParams.get('origin') || '');
+    setDestination(searchParams.get('destination') || '');
     // Retrieve and set other form data from URL parameters
   }, [location]);
 
   useEffect(() => {
     calculateDistance();
-  }, []);
+  }, [origin, destination]);
 
   const calculateDistance = () => {
+    if (!origin || !destination) {
+      return;
+    }
     setLoading(true);
     setError(false);
 

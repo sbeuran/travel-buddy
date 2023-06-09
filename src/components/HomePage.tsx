@@ -111,6 +111,7 @@ function HomePage() {
 
     const searchParams = new URLSearchParams();
     searchParams.set('origin', origin);
+    searchParams.set('destination', destination);
     // Set other form data in URL parameters
 
     navigate(`/search-results?${searchParams.toString()}`);
