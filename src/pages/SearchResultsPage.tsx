@@ -25,12 +25,13 @@ function SearchResultsPage() {
   }, [location]);
 
   useEffect(() => {
-    if (origin !== '' && destination !== '') {
-      calculateDistance();
-    }
+    calculateDistance();
   }, [origin, destination]);
 
   const calculateDistance = () => {
+    if (!origin || !destination) {
+      return;
+    }
     setLoading(true);
     setError(false);
 
