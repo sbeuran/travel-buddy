@@ -39,7 +39,7 @@ function Calendar (props: CalendarProps) {
     ];
 
     const handleChange = (date: Date) => {
-        onChangeDate(date.toString());
+        onChangeDate(date.toDateString());
     }
 
     const CustomInput = forwardRef(({value, onClick}: any, ref) =>
@@ -51,7 +51,7 @@ function Calendar (props: CalendarProps) {
     useEffect(() => {
         const date = value ? new Date(value) : new Date();
         setStartDate(date);
-        onChangeDate(date.toString());
+        onChangeDate(date.toDateString());
     }, [value])
 
     return (

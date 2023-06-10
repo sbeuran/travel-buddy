@@ -6,6 +6,7 @@ interface ErrorProps {
 
 export const Container = styled.div`
     margin-bottom: 8px;
+    margin-right: 16px;
     display: flex;
     flex-direction: column;
     align-items: start;

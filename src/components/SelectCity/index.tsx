@@ -76,6 +76,7 @@ function SelectCity (props: InputProps) {
     const onCancelSearch = () => {
         setSearchKey('');
         setShowOptions(true);
+        onChange('')
     }
 
     const onChangeValue = (event: React.ChangeEvent<HTMLInputElement>) => {

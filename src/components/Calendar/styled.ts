@@ -14,7 +14,7 @@ export const Label = styled.div`
 export const DateContainer = styled.div`
     border: 1px solid #E5E7EB;
     border-radius: 6px;
-    padding: 8px;
+    padding: 10px;
 `
 
 export const CalendarHeader = styled.div`
