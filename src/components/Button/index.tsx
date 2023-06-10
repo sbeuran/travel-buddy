@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { BaseButton } from './styled';
 
 interface ButtonProps {
     type?: string,
@@ -11,7 +12,7 @@ function Button (props: ButtonProps) {
     const { title, disabled, onClick } = props;
 
     return (
-        <button className='normal-btn' disabled={disabled} onClick={onClick}>{title}</button>
+        <BaseButton disabled={disabled} onClick={onClick}>{title}</BaseButton>
     );
 }
 

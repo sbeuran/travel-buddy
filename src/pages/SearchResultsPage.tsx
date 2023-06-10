@@ -1,17 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
+import Button from '../components/Button';
 import { CITIES } from '../constants/const';
+import Distances from '../components/Distances';
 
 function SearchResultsPage() {
   const location = useLocation();
 
   const [origin, setOrigin] = useState('');
   const [intermediateCities, setIntermediateCities] = useState<string[]>([]);
+  const [cities, setCities] = useState<string[]>([]);
   const [destination, setDestination] = useState('');
   const [date, setDate] = useState('');
   const [passengers, setPassengers] = useState('');
 
   const [distance, setDistance] = useState('');
+  const [distances, setDistances] = useState<number[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
 
@@ -19,6 +23,12 @@ function SearchResultsPage() {
     const searchParams = new URLSearchParams(location.search);
     setOrigin(searchParams.get('origin') || '');
     setDestination(searchParams.get('destination') || '');
+    const intermediateCitiesStr = searchParams.get('intermediateCities');
+    if (intermediateCitiesStr) {
+      setIntermediateCities(intermediateCitiesStr.split(','));
+    } else {
+      setIntermediateCities([]);
+    }
     setDate(searchParams.get('date') || '');
     setPassengers(searchParams.get('passengers') || '');
     // Retrieve and set other form data from URL parameters
@@ -47,6 +57,7 @@ function SearchResultsPage() {
         );
 
         const route = [origin, ...intermediateCities, destination];
+        setCities(route);
         let totalDistance = 0;
 
         for (let i = 0; i < route.length - 1; i++) {
@@ -61,6 +72,7 @@ function SearchResultsPage() {
           }
 
           const distance = calculateHaversineDistance(startCoord, endCoord);
+          setDistances([...distances, distance]);
           totalDistance += distance;
         }
 
@@ -99,25 +111,30 @@ function SearchResultsPage() {
 
   return (
     <div className='page'>
-      <h2>Search Results</h2>
-
-      <p>Origin: {origin}</p>
-      <p>Intermediate Cities: {intermediateCities.join(', ')}</p>
-      <p>Destination: {destination}</p>
-      <p>Date: {date}</p>
-      <p>Passengers: {passengers}</p>
-
-      {loading ? (
-        <p>Loading...</p>
-      ) : (
-        <>
-          {error ? (
-            <p>Error occurred while calculating distance.</p>
+      <div className='result'>
+        {loading ? (
+          <p>Loading...</p>
           ) : (
-            <p>Total Distance: {distance} km</p>
-          )}
-        </>
-      )}
+            <>
+            {error ? (
+              <>
+                <p>Oops! Something went wrong!</p>
+              </>
+            ) : (
+              <>
+                <p>Origin: {origin}</p>
+                <p>Intermediate Cities: {intermediateCities.join(', ')}</p>
+                <p>Destination: {destination}</p>
+                <Distances cities={cities} distances={distances}/>
+                <p><span className='color-font'>{distance} km</span> is total distance</p>
+                <p><span className='color-font'>{passengers}</span> Passengers</p>
+                <p className='color-font'>{date}</p>
+              </>
+            )}
+          </>
+        )}
+        <Button title='Back' disabled={false} onClick={() => {}}/>
+      </div>
     </div>
   );
 }
