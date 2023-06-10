@@ -12,6 +12,7 @@ export const Container = styled.div`
 `;
 
 export const Location = styled.div`
+    position: relative;
     width: 80px;
     height: 30px;
     margin-top: 22px;
@@ -19,6 +20,13 @@ export const Location = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
+`;
+
+export const Path = styled.div`
+    position: absolute;
+    bottom: 100%;
+    border-left: dotted;
+    height: 50px;
 `;
 
 export const SelectContainer = styled.div`
@@ -96,5 +104,41 @@ export const Option = styled.div`
     border-radius: 6px;
     &:hover {
         background-color: #C7D1F4;
+    }
+`;
+
+export const Triangle = styled.div`
+    position: absolute;
+    top: -8px;
+    left: 0px;
+    transform: translate(43px, 0px);
+    margin-top: -8px;
+    margin-left: -4px;
+    width: 0;
+    
+    &::before {
+        border-bottom-color: #C7D1F4 !important;
+        top: -1px;
+        border-top: none;
+        box-sizing: content-box;
+        position: absolute;
+        border: 8px solid transparent;
+        height: 0;
+        width: 1px;
+        content: "";
+        z-index: -1;
+        border-width: 8px;
+        left: -8px;
+    }
+
+    &::after {
+        border: none;
+        top: 0;
+        box-sizing: content-box;
+        position: absolute;
+        height: 0;
+        width: 1px;
+        content: "";
+        z-index: -1;
     }
 `;

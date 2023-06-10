@@ -4,6 +4,7 @@ import { RxCross1 } from 'react-icons/rx';
 import { 
     Container,
     Location,
+    Path,
     SelectContainer,
     SelectContent,
     SelectMainContent,
@@ -14,7 +15,8 @@ import {
     Input,
     CancelSearch,
     OptionContainer,
-    Option
+    Option,
+    Triangle
 } from './styled';
 import { CITIES } from '../../constants/const';
 
@@ -109,6 +111,9 @@ function SelectCity (props: InputProps) {
         <Container>
             <Location>
                 {
+                    !origin && <Path />
+                }
+                {
                     dest
                         ? <MdOutlineLocationOn color='red' size={20} />
                         : <MdPanoramaFishEye />
@@ -130,6 +135,7 @@ function SelectCity (props: InputProps) {
                             </CancelSearch>
                         </SearchContent>
                         <OptionContainer ref={wrapperRef} isshown={showOptions}>
+                            <Triangle />
                             {
                                 filterOptions.length > 0 && filterOptions.map((option, index) => 
                                     <Option key={index} onClick={() => onSelect(option.value)}>

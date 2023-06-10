@@ -5,6 +5,7 @@ import SelectCity from '../components/SelectCity';
 import { CITIES } from '../constants/const';
 import AddDestination from '../components/AddDestination';
 import Passengers from '../components/Passengers';
+import Calendar from '../components/Calendar';
 
 function HomePage() {
   const navigate = useNavigate();
@@ -30,14 +31,12 @@ function HomePage() {
 
   useEffect(() => {
     // Simulate asynchronous request for city options
-    const delay = setTimeout(() => {
-      setOriginOptions(filterCities(origin));
-      setIntermediateOptions(filterCities(intermediateCities.join(',')));
-      setDestinationOptions(filterCities(destination));
-    }, 500);
-
-    return () => clearTimeout(delay);
-  }, [origin, intermediateCities, destination]);
+    if (!origin || !destination || !date || !passengers) {
+      setFormError(true);
+    } else {
+      setFormError(false);
+    }
+  }, [origin, destination, date, passengers]);
 
   const filterCities = (keyword: string): string[] => {
     const lowercaseKeyword = keyword.toLowerCase();
@@ -72,8 +71,8 @@ function HomePage() {
     setDestination(value);
   };
 
-  const handleDateChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setDate(event.target.value);
+  const handleDateChange = (value: string) => {
+    setDate(value);
   };
 
   const handlePassengersChange = (value: string) => {
@@ -143,19 +142,18 @@ function HomePage() {
               required
             /> */}
             <Passengers value={passengers} onChange={handlePassengersChange} />
-            <label htmlFor="date">Date of the Trip:</label>
+            {/* <label htmlFor="date">Date of the Trip:</label>
             <input
               id="date"
               type="date"
               value={date}
               onChange={handleDateChange}
               required
-            />
+            /> */}
+            <Calendar value={date} onChangeDate={handleDateChange} />
           </div>
         </div>
-        {formError && <p>Please fill in all required fields.</p>}
-
-        <Button type="submit" title='Submit' disabled={false} onClick={() => {}}/>
+        <Button type="submit" title='Submit' disabled={formError} onClick={() => {}}/>
       </form>
     </div>
   );
