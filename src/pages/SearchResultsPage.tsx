@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import Button from '../components/Button';
 import { CITIES } from '../constants/const';
 import Distances from '../components/Distances';
 
 function SearchResultsPage() {
   const location = useLocation();
+  const navigate = useNavigate();
 
   const [origin, setOrigin] = useState('');
   const [intermediateCities, setIntermediateCities] = useState<string[]>([]);
@@ -59,6 +60,7 @@ function SearchResultsPage() {
         const route = [origin, ...intermediateCities, destination];
         setCities(route);
         let totalDistance = 0;
+        let newDistances = [];
 
         for (let i = 0; i < route.length - 1; i++) {
           const startCity = route[i];
@@ -72,10 +74,11 @@ function SearchResultsPage() {
           }
 
           const distance = calculateHaversineDistance(startCoord, endCoord);
-          setDistances([...distances, distance]);
+          newDistances.push(distance)
           totalDistance += distance;
         }
 
+        setDistances(newDistances);
         setDistance(totalDistance.toFixed(2));
         setLoading(false);
       } catch (error) {
@@ -122,9 +125,6 @@ function SearchResultsPage() {
               </>
             ) : (
               <>
-                <p>Origin: {origin}</p>
-                <p>Intermediate Cities: {intermediateCities.join(', ')}</p>
-                <p>Destination: {destination}</p>
                 <Distances cities={cities} distances={distances}/>
                 <p><span className='color-font'>{distance} km</span> is total distance</p>
                 <p><span className='color-font'>{passengers}</span> Passengers</p>
@@ -133,7 +133,7 @@ function SearchResultsPage() {
             )}
           </>
         )}
-        <Button title='Back' disabled={false} onClick={() => {}}/>
+        <Button title='Back' disabled={false} onClick={() => {navigate("/")}}/>
       </div>
     </div>
   );
