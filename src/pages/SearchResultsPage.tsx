@@ -19,6 +19,12 @@ function SearchResultsPage() {
     const searchParams = new URLSearchParams(location.search);
     setOrigin(searchParams.get('origin') || '');
     setDestination(searchParams.get('destination') || '');
+    const intermediateCitiesStr = searchParams.get('intermediateCities');
+    if (intermediateCitiesStr) {
+      setIntermediateCities(intermediateCitiesStr.split(','));
+    } else {
+      setIntermediateCities([]);
+    }
     setDate(searchParams.get('date') || '');
     setPassengers(searchParams.get('passengers') || '');
     // Retrieve and set other form data from URL parameters
