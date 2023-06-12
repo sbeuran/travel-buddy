@@ -1,0 +1,138 @@
+@font-face {
+  font-family: InterFont;
+  src: url(./assets/fonts/Inter-Bold.ttf);
+}   
+
+body {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: 0;
+  padding: 10px;
+  overflow-x: hidden;
+}
+
+#root {
+  width: 100%;
+  height: 100%;
+}
+
+.container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 500;
+  font-family: InterFont;
+}
+
+.background {
+  position: absolute;
+  background: conic-gradient(from 167.75deg at 26.05% 40.64%, rgba(207, 238, 187, 0.881587) -18.97deg, #ABE1C9 8.74deg, #80CDD7 160.76deg, #7C9CE5 225.35deg, rgba(126, 163, 230, 0.22) 298.84deg, rgba(207, 238, 187, 0.881587) 341.03deg, #ABE1C9 368.74deg);
+  filter: blur(120px);
+  width: 1200px;
+  height: 600px;
+  z-index: -1;
+  
+}
+
+@media only screen and (max-width: 600px) {
+  .background {
+    width: 400px;
+  }
+}
+
+.page {
+  background-color: white;
+  width: 500px;
+  border-radius: 16px;
+  padding: 38px;
+  display: flex;
+  flex-direction: column;
+
+}
+@media only screen and (max-width: 600px) {
+  .page{
+    width: 100%;
+    padding: 20px 10px;
+  }
+}
+
+.page form, .page .result{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.main-container {
+  margin-bottom: 20px;
+  display: flex;
+
+}
+@media only screen and (max-width: 600px) {
+  .main-container {
+    flex-direction: column;
+  }
+}
+
+.city-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.date-passengers {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  margin-left: 40px;
+
+}
+@media only screen and (max-width: 600px) {
+  .date-passengers {
+    margin-left: 80px;
+    flex-direction: row;
+  }
+}
+
+.react-datepicker__header {
+  background-color: white;
+  border-bottom: none;
+}
+
+.react-datepicker {
+  border: 1px solid #C7D1F4;
+  box-shadow: 0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05);
+  border-radius: 8px;
+  font-size: 12px;
+  padding: 12px;
+  font-family: InterFont;
+}
+
+.react-datepicker__day--selected {
+  background-color: #C7D1F4;
+  border-radius: 20px;
+}
+
+.react-datepicker__day-name {
+  font-weight: bolder;
+}
+
+.react-datepicker-popper[data-placement^=bottom] .react-datepicker__triangle::after {
+  border: none;
+  color: #C7D1F4;
+}
+
+.react-datepicker-popper[data-placement^=bottom] .react-datepicker__triangle::before {
+  border-bottom-color: #C7D1F4;
+}
+
+.color-font {
+  color: #7786D2;
+  font-weight: 700;
+}
