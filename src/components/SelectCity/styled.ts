@@ -3,6 +3,9 @@ import styled from "styled-components";
 interface ShowProps {
     isshown: boolean
 }
+interface ErrorProps {
+    error: boolean
+}
 
 export const Container = styled.div`
     width: 100%;
@@ -35,7 +38,7 @@ export const SelectContainer = styled.div`
 `;
 
 export const SelectContent = styled.div`
-    width: 240px;
+    width: 250px;
 `;
 
 export const CancelButton = styled.div<ShowProps>`
@@ -62,8 +65,8 @@ export const SelectMainContent = styled.div`
     position: relative;
 `
 
-export const SearchContent = styled.div`
-    border: 1px solid #E5E7EB;
+export const SearchContent = styled.div<ErrorProps>`
+    border: 1px solid ${props => props.error ? "red" : "#E5E7EB"};
     border-radius: 6px;
     padding: 8px 12px 8px 10px;
     display: flex;
@@ -105,6 +108,20 @@ export const Option = styled.div`
     &:hover {
         background-color: #C7D1F4;
     }
+`;
+
+export const NotFound = styled.div`
+    padding: 6px;
+    border-radius: 6px;
+    color: #888888;
+`;
+
+export const LoadingOption = styled.div`
+    background: #E5E7EB;
+    margin: 3px 0;
+    width: 100%;
+    height: 20px;
+    border-radius: 4px;
 `;
 
 export const Triangle = styled.div`

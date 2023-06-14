@@ -16,6 +16,8 @@ import {
     CancelSearch,
     OptionContainer,
     Option,
+    NotFound,
+    LoadingOption,
     Triangle
 } from './styled';
 import { CITIES } from '../../constants/const';
@@ -39,7 +41,9 @@ interface OptionProps {
 function SelectCity (props: InputProps) {
     const { label, selectedIndexes, onChange, value, origin, dest, onRemove } = props;
     const [showOptions, setShowOptions] = useState(false);
+    const [loadingOptions, setLoadingOptions] = useState(false);
     const [error, setError] = useState(false);
+    const [inputError, setInputError] = useState(false);
     const [searchKey, setSearchKey] = useState<any>();
     const [filterOptions, setFilterOptions] = useState<OptionProps[]>([]);
 
@@ -67,6 +71,7 @@ function SelectCity (props: InputProps) {
 
     const onSelect = (index: number) => {
         const selectedCityName = CITIES[index][0];
+        console.log(selectedCityName)
         setSearchKey(selectedCityName);
         setShowOptions(false);
         setError(false);
@@ -88,6 +93,15 @@ function SelectCity (props: InputProps) {
         }
     }
 
+    const checkValue = (event: React.ChangeEvent<HTMLInputElement>) => {
+        if (filterOptions.length === 0) {
+            setInputError(true);
+        } else {
+            setSearchKey(event.target.value);
+            setInputError(false);
+        }
+    }
+
     useEffect(() => {
         const options = CITIES.map((city, index) => {
             return {
@@ -96,12 +110,17 @@ function SelectCity (props: InputProps) {
                 disabled: !!selectedIndexes && selectedIndexes.indexOf(index) > 0
             }
         })
+        setLoadingOptions(true);
+
         if (searchKey) {
             const newFilterOptions = options.filter(option => option.label.toString().toLocaleLowerCase().indexOf(searchKey.toLocaleLowerCase()) > -1);
             setFilterOptions(newFilterOptions);
         } else {
             setFilterOptions(options);
         }
+        setTimeout(() => {
+            setLoadingOptions(false);
+        }, 500);
     }, [searchKey]);
 
     useEffect(() => {
@@ -123,10 +142,11 @@ function SelectCity (props: InputProps) {
             <SelectContainer>
                 <SelectContent>
                     <Label>{label}</Label>
-                    <SelectMainContent>
-                        <SearchContent>
+                    <SelectMainContent ref={wrapperRef}>
+                        <SearchContent error={inputError}>
                             <Input 
                                 onFocus={() => setShowOptions(true)}
+                                onBlur={checkValue}
                                 value={searchKey}
                                 onChange={onChangeValue} />
                             <CancelSearch 
@@ -135,20 +155,27 @@ function SelectCity (props: InputProps) {
                                 <RxCross1 />
                             </CancelSearch>
                         </SearchContent>
-                        <OptionContainer ref={wrapperRef} isshown={showOptions}>
+                        <OptionContainer isshown={showOptions}>
                             <Triangle />
                             {
                                 filterOptions.length > 0 && filterOptions.map((option, index) => 
-                                    <Option key={index} onClick={() => onSelect(option.value)}>
-                                        {option.label}
-                                    </Option>
+                                    loadingOptions 
+                                        ? <LoadingOption />
+                                        : <Option key={index} onClick={() => onSelect(option.value)}>{option.label}</Option>
                                 )
+                            }
+                            {
+                                filterOptions.length === 0 &&
+                                    <NotFound>There is no matches</NotFound>
                             }
                         </OptionContainer>
                     </SelectMainContent>
-                    <SelectError isshown={error}>
+                    <SelectError isshown={error || inputError}>
                         {
                             error && "You must choose the city of origin"
+                        }
+                        {
+                            inputError && "Oops! Failed to search with this keyword."
                         }
                     </SelectError>
                 </SelectContent>

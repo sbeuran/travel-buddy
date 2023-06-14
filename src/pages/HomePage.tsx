@@ -52,9 +52,13 @@ function HomePage() {
   };
 
   const handleIntermediateChange = (index: number) => (value: string) => {
+    console.log(index, value)
     let updatedIntermediateCities = [...intermediateCities];
     updatedIntermediateCities[index] = value;
     setIntermediateCities(updatedIntermediateCities);
+    if (index === updatedIntermediateCities.length - 1) {
+      setDestination(value);
+    }
   };
 
   const handleAddIntermediateCity = () => {
@@ -92,7 +96,9 @@ function HomePage() {
     const searchParams = new URLSearchParams();
     searchParams.set('origin', origin);
     searchParams.set('destination', destination);
-    const filterIntermediateCities = intermediateCities.filter(city => city !== '');
+    console.log(intermediateCities)
+    const filterIntermediateCities = intermediateCities.filter((city, index) => index !== intermediateCities.length - 1);
+    console.log(filterIntermediateCities)
     searchParams.set('intermediateCities', filterIntermediateCities.toString())
     searchParams.set('date', date);
     searchParams.set('passengers', passengers);
@@ -116,14 +122,11 @@ function HomePage() {
             {
               intermediateCities.map((city, index) => 
                 <SelectCity 
+                  key={index}
                   label='City of destination'
                   origin={false}
                   dest={index + 1 === intermediateCities.length}
-                  onChange={
-                    index + 1 === intermediateCities.length
-                      ? handleDestinationChange
-                      : handleIntermediateChange(index)
-                  }
+                  onChange={handleIntermediateChange(index)}
                   onRemove={() => handleRemoveIntermediateCity(index)}
                   value={city} />
               )

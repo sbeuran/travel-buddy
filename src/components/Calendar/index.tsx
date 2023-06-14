@@ -77,6 +77,7 @@ function Calendar (props: CalendarProps) {
                 }
                 selected={startDate} 
                 onChange={handleChange}
+                minDate={new Date()}
             />
         </Container>
     );
